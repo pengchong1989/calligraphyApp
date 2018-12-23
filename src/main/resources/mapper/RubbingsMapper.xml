@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.calligraphy.dao.RubbingsMapper">
+  <resultMap id="BaseResultMap" type="com.calligraphy.dto.Rubbings">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="typeTime" jdbcType="INTEGER" property="typetime" />
+    <result column="source" jdbcType="VARCHAR" property="source" />
+    <result column="rubbingsUrl" jdbcType="VARCHAR" property="rubbingsurl" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="createBy" jdbcType="INTEGER" property="createby" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="readNum" jdbcType="INTEGER" property="readnum" />
+    <result column="collectionNum" jdbcType="INTEGER" property="collectionnum" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, typeTime, source, rubbingsUrl, createTime, createBy, name, readNum, collectionNum
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from rubbings
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from rubbings
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.calligraphy.dto.Rubbings">
+    insert into rubbings (id, typeTime, source, 
+      rubbingsUrl, createTime, createBy, 
+      name, readNum, collectionNum
+      )
+    values (#{id,jdbcType=BIGINT}, #{typetime,jdbcType=INTEGER}, #{source,jdbcType=VARCHAR}, 
+      #{rubbingsurl,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{createby,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{readnum,jdbcType=INTEGER}, #{collectionnum,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.calligraphy.dto.Rubbings">
+    insert into rubbings
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="typetime != null">
+        typeTime,
+      </if>
+      <if test="source != null">
+        source,
+      </if>
+      <if test="rubbingsurl != null">
+        rubbingsUrl,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="createby != null">
+        createBy,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="readnum != null">
+        readNum,
+      </if>
+      <if test="collectionnum != null">
+        collectionNum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="typetime != null">
+        #{typetime,jdbcType=INTEGER},
+      </if>
+      <if test="source != null">
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="rubbingsurl != null">
+        #{rubbingsurl,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createby != null">
+        #{createby,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="readnum != null">
+        #{readnum,jdbcType=INTEGER},
+      </if>
+      <if test="collectionnum != null">
+        #{collectionnum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.calligraphy.dto.Rubbings">
+    update rubbings
+    <set>
+      <if test="typetime != null">
+        typeTime = #{typetime,jdbcType=INTEGER},
+      </if>
+      <if test="source != null">
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="rubbingsurl != null">
+        rubbingsUrl = #{rubbingsurl,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createby != null">
+        createBy = #{createby,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="readnum != null">
+        readNum = #{readnum,jdbcType=INTEGER},
+      </if>
+      <if test="collectionnum != null">
+        collectionNum = #{collectionnum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.calligraphy.dto.Rubbings">
+    update rubbings
+    set typeTime = #{typetime,jdbcType=INTEGER},
+      source = #{source,jdbcType=VARCHAR},
+      rubbingsUrl = #{rubbingsurl,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      createBy = #{createby,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      readNum = #{readnum,jdbcType=INTEGER},
+      collectionNum = #{collectionnum,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="list" resultType="com.calligraphy.dto.Rubbings">
+    SELECT  id,name,typeTime,rubbingsUrl FROM  rubbings where 1=1
+    <if test="keyword != null and keyword != ''">
+      and name LIKE CONCAT('%',#{keyword},'%' )
+    </if>
+    <if test="rubbingsType != null">
+      and typeTime = ${rubbingsType}
+    </if>
+    ORDER by createTime DESC LIMIT #{start},#{end}
+  </select>
+
+  <select id="mycollect" resultType="com.calligraphy.dto.Rubbings">
+    SELECT r.id,r.name,r.typeTime,r.rubbingsUrl FROM collectrubbings c INNER JOIN `rubbings` r on c.rubbingsId = r.id and userId = #{userId}
+    where 1=1
+    <if test="keyword != null and keyword != ''">
+      and r.name LIKE CONCAT('%',#{keyword},'%' )
+    </if>
+    ORDER by r.createTime DESC LIMIT #{start},#{end}
+  </select>
+
+  <insert id="addcollect">
+    insert into collectrubbings (userId, rubbingsId)
+    values (#{userId,jdbcType=VARCHAR}, #{rubbingsId,jdbcType=VARCHAR})
+  </insert>
+</mapper>

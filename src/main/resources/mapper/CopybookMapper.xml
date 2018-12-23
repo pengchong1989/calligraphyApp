@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.calligraphy.dao.CopybookMapper">
+  <resultMap id="BaseResultMap" type="com.calligraphy.dto.Copybook">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="columnNum" jdbcType="INTEGER" property="columnnum" />
+    <result column="rowNum" jdbcType="INTEGER" property="rownum" />
+    <result column="backType" jdbcType="INTEGER" property="backtype" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="createBy" jdbcType="INTEGER" property="createby" />
+    <result column="copybookUrl" jdbcType="VARCHAR" property="copybookurl" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, columnNum, rowNum, backType, name, createTime, createBy, copybookUrl
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from copybook
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from copybook
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.calligraphy.dto.Copybook" useGeneratedKeys="true" keyProperty="id">
+    insert into copybook ( columnNum, rowNum,
+      backType, name, create_date,
+      userId)
+    values ( #{columnnum,jdbcType=INTEGER}, #{rownum,jdbcType=INTEGER},
+      #{backtype,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, now(),
+      #{userId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.calligraphy.dto.Copybook">
+    insert into copybook
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="columnnum != null">
+        columnNum,
+      </if>
+      <if test="rownum != null">
+        rowNum,
+      </if>
+      <if test="backtype != null">
+        backType,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="createby != null">
+        createBy,
+      </if>
+      <if test="copybookurl != null">
+        copybookUrl,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="columnnum != null">
+        #{columnnum,jdbcType=INTEGER},
+      </if>
+      <if test="rownum != null">
+        #{rownum,jdbcType=INTEGER},
+      </if>
+      <if test="backtype != null">
+        #{backtype,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createby != null">
+        #{createby,jdbcType=INTEGER},
+      </if>
+      <if test="copybookurl != null">
+        #{copybookurl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.calligraphy.dto.Copybook">
+    update copybook
+    <set>
+      <if test="columnnum != null">
+        columnNum = #{columnnum,jdbcType=INTEGER},
+      </if>
+      <if test="rownum != null">
+        rowNum = #{rownum,jdbcType=INTEGER},
+      </if>
+      <if test="backtype != null">
+        backType = #{backtype,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createby != null">
+        createBy = #{createby,jdbcType=INTEGER},
+      </if>
+      <if test="copybookurl != null">
+        copybookUrl = #{copybookurl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.calligraphy.dto.Copybook">
+    update copybook
+    set columnNum = #{columnnum,jdbcType=INTEGER},
+      rowNum = #{rownum,jdbcType=INTEGER},
+      backType = #{backtype,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      createBy = #{createby,jdbcType=INTEGER},
+      copybookUrl = #{copybookurl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="myCopybook" resultType="com.calligraphy.dto.Copybook">
+    SELECT c.id, c. NAME, cs.url AS copybookUrl, c.columnNum, c.rowNum, c.backType, cs.sort
+    FROM ( SELECT * FROM copybook WHERE userId = #{userId} ORDER BY create_date desc LIMIT #{start},#{end} ) c
+    LEFT JOIN copybookurls cs ON c.id = cs.copybookId ORDER BY c.create_date,cs.sort asc
+  </select>
+
+  <insert id="insertBatch" parameterType="java.util.List">
+    INSERT INTO copybookurls
+    (copybookId, url, sort)
+    VALUES
+    <foreach collection ="list" item="copybookurls" separator =",">
+      (#{copybookurls.copybookId}, #{copybookurls.url}, #{copybookurls.sort})
+    </foreach >
+  </insert>
+</mapper>

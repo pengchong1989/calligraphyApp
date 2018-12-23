@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.calligraphy.dao.CalligraphydicMapper">
+  <resultMap id="BaseResultMap" type="com.calligraphy.dto.Calligraphydic">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="calligraphyDic" jdbcType="INTEGER" property="calligraphydic" />
+    <result column="dicUrl" jdbcType="VARCHAR" property="dicurl" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="createBy" jdbcType="INTEGER" property="createby" />
+    <result column="wordName" jdbcType="VARCHAR" property="wordname" />
+    <result column="readNum" jdbcType="INTEGER" property="readnum" />
+    <result column="pinyin" jdbcType="VARCHAR" property="pinyin" />
+    <result column="explanation" jdbcType="VARCHAR" property="explanation" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, calligraphyDic, dicUrl, createTime, createBy, wordName, readNum, pinyin, explanation, 
+    code
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from calligraphydic
+        where id = #{id,jdbcType=INTEGER}
+  </select>
+  <insert id="insert" parameterType="com.calligraphy.dto.Calligraphydic">
+    insert into calligraphydic (id, calligraphyDic, dicUrl, 
+      createTime, createBy, wordName, 
+      readNum, pinyin, explanation, 
+      code)
+    values (#{id,jdbcType=INTEGER}, #{calligraphydic,jdbcType=INTEGER}, #{dicurl,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{createby,jdbcType=INTEGER}, #{wordname,jdbcType=VARCHAR}, 
+      #{readnum,jdbcType=INTEGER}, #{pinyin,jdbcType=VARCHAR}, #{explanation,jdbcType=VARCHAR}, 
+      #{code,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.calligraphy.dto.Calligraphydic">
+    insert into calligraphydic
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="calligraphydic != null">
+        calligraphyDic,
+      </if>
+      <if test="dicurl != null">
+        dicUrl,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="createby != null">
+        createBy,
+      </if>
+      <if test="wordname != null">
+        wordName,
+      </if>
+      <if test="readnum != null">
+        readNum,
+      </if>
+      <if test="pinyin != null">
+        pinyin,
+      </if>
+      <if test="explanation != null">
+        explanation,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="calligraphydic != null">
+        #{calligraphydic,jdbcType=INTEGER},
+      </if>
+      <if test="dicurl != null">
+        #{dicurl,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createby != null">
+        #{createby,jdbcType=INTEGER},
+      </if>
+      <if test="wordname != null">
+        #{wordname,jdbcType=VARCHAR},
+      </if>
+      <if test="readnum != null">
+        #{readnum,jdbcType=INTEGER},
+      </if>
+      <if test="pinyin != null">
+        #{pinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="explanation != null">
+        #{explanation,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.calligraphy.dto.Calligraphydic">
+    update calligraphydic
+    <set>
+      <if test="calligraphydic != null">
+        calligraphyDic = #{calligraphydic,jdbcType=INTEGER},
+      </if>
+      <if test="dicurl != null">
+        dicUrl = #{dicurl,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createby != null">
+        createBy = #{createby,jdbcType=INTEGER},
+      </if>
+      <if test="wordname != null">
+        wordName = #{wordname,jdbcType=VARCHAR},
+      </if>
+      <if test="readnum != null">
+        readNum = #{readnum,jdbcType=INTEGER},
+      </if>
+      <if test="pinyin != null">
+        pinyin = #{pinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="explanation != null">
+        explanation = #{explanation,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.calligraphy.dto.Calligraphydic">
+    update calligraphydic
+    set calligraphyDic = #{calligraphydic,jdbcType=INTEGER},
+      dicUrl = #{dicurl,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      createBy = #{createby,jdbcType=INTEGER},
+      wordName = #{wordname,jdbcType=VARCHAR},
+      readNum = #{readnum,jdbcType=INTEGER},
+      pinyin = #{pinyin,jdbcType=VARCHAR},
+      explanation = #{explanation,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="diclist" resultType="com.calligraphy.dto.Calligraphydic">
+    SELECT dicUrl,source FROM calligraphydic where 1=1
+    <if test="dictype != null">
+      and calligraphyDic = #{dictype}
+    </if>
+    <if test="keyword != null and keyword != ''">
+      and (wordName = #{keyword} or pinyin = #{keyword})
+    </if>
+    ORDER  by sort DESC limit #{start},#{end}
+  </select>
+</mapper>

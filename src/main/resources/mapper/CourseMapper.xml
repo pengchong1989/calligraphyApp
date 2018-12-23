@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.calligraphy.dao.CourseMapper">
+  <resultMap id="BaseResultMap" type="com.calligraphy.dto.Course">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="courseName" jdbcType="VARCHAR" property="coursename" />
+    <result column="fristTypeId" jdbcType="VARCHAR" property="fristtypeid" />
+    <result column="secondTypeId" jdbcType="VARCHAR" property="secondtypeid" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, courseName, fristTypeId, secondTypeId, sort, create_date, create_by
+  </sql>
+  <insert id="insert" parameterType="com.calligraphy.dto.Course">
+    insert into course (id, courseName, fristTypeId, 
+      secondTypeId, sort, create_date, 
+      create_by)
+    values (#{id,jdbcType=VARCHAR}, #{coursename,jdbcType=VARCHAR}, #{fristtypeid,jdbcType=VARCHAR}, 
+      #{secondtypeid,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{createBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.calligraphy.dto.Course">
+    insert into course
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="coursename != null">
+        courseName,
+      </if>
+      <if test="fristtypeid != null">
+        fristTypeId,
+      </if>
+      <if test="secondtypeid != null">
+        secondTypeId,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="coursename != null">
+        #{coursename,jdbcType=VARCHAR},
+      </if>
+      <if test="fristtypeid != null">
+        #{fristtypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="secondtypeid != null">
+        #{secondtypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.calligraphy.dto.Course">
+    update course
+    <set>
+      <if test="coursename != null">
+        courseName = #{coursename,jdbcType=VARCHAR},
+      </if>
+      <if test="fristtypeid != null">
+        fristTypeId = #{fristtypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="secondtypeid != null">
+        secondTypeId = #{secondtypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.calligraphy.dto.Course">
+    update course
+    set courseName = #{coursename,jdbcType=VARCHAR},
+      fristTypeId = #{fristtypeid,jdbcType=VARCHAR},
+      secondTypeId = #{secondtypeid,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="courseList" resultType="com.calligraphy.dto.Course">
+    SELECT id,courseName ,cover,sort FROM `course` where secondTypeId = #{secondTypeId}
+    ORDER BY sort DESC LIMIT #{start},#{end};
+  </select>
+
+  <select id="findCourse" resultType="com.calligraphy.dto.Course">
+    SELECT c.id,c.courseName,cs.courseurl as cover FROM courseurls cs INNER JOIN `course` c on c.id = cs.courseId and c.id = #{courseId} ORDER BY cs.sort DESC;
+  </select>
+</mapper>
