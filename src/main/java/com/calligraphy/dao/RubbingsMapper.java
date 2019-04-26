@@ -27,5 +27,16 @@ public interface RubbingsMapper {
     public List<Rubbings> mycollect(@Param("keyword")String keyword,@Param("userId")String userId
             ,@Param("start")Integer start,@Param("end")Integer end);
 
+    public Integer listcount(@Param("keyword") String keyword, @Param("rubbingsType")Integer rubbingsType
+            );
+
+    public Integer mycollectcount(@Param("keyword")String keyword,@Param("userId")String userId
+            );
+
     public void addcollect(@Param("rubbingsId")String rubbingsId,@Param("userId")String userId);
+
+    public List<Rubbings> hotlist();
+
+    public void canclecollect(@Param("rubbingsId")String rubbingsId,@Param("userId")String userId);
+
 }

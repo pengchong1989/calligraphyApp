@@ -129,7 +129,7 @@
   </update>
 
   <select id="articleList" resultType="com.calligraphy.dto.Article">
-    SELECT id,title,author,left(content, 50) as content FROM `article` WHERE 1=1
+    SELECT id,title,author,left(jianjie, 50) as content FROM `article` WHERE del_flag=0
     <if test="type != null">
       and type = #{type}
     </if>
@@ -139,7 +139,37 @@
     ORDER BY create_date desc LIMIT #{start},#{end}
   </select>
 
-  <select id="queryByid" resultType="com.calligraphy.dto.Article">
-    SELECT id,title,author,content FROM `article` WHERE id=#{articleId}
+  <select id="articleListcount" resultType="java.lang.Integer">
+    SELECT count(1) FROM
+    (SELECT id FROM `article` WHERE del_flag=0
+    <if test="type != null">
+      and type = #{type}
+    </if>
+    <if test="keyword != null and keyword != ''">
+      and title LIKE CONCAT('%',#{keyword},'%' )
+    </if>
+    ) tmp
   </select>
+
+  <select id="queryByid" resultType="com.calligraphy.dto.Article">
+SELECT id, title, author, content, ( SELECT COUNT(*) FROM artilce_praisenum WHERE articleid = #{articleId} ) AS praisenum,
+( SELECT COUNT(*) FROM artilce_readnum WHERE articleid = #{articleId} ) AS rednum,
+( SELECT COUNT(*) FROM artilce_reportednum WHERE articleid = #{articleId} ) AS reportednum
+FROM `article` WHERE id = #{articleId};
+  </select>
+
+  <insert id="saveRead">
+  insert into artilce_readnum (articleid,userid,createtime)
+    values (#{articleId,jdbcType=VARCHAR},#{userId,jdbcType=VARCHAR},now())
+  </insert>
+
+  <insert id="savePraise">
+    insert into artilce_praisenum (articleid,userid,createtime)
+    values (#{articleId,jdbcType=VARCHAR},#{userId,jdbcType=VARCHAR},now())
+  </insert>
+
+  <insert id="saveReported">
+    insert into artilce_reportednum (articleid,userid,createtime)
+    values (#{articleId,jdbcType=VARCHAR},#{userId,jdbcType=VARCHAR},now())
+</insert>
 </mapper>

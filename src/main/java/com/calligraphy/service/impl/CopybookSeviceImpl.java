@@ -38,6 +38,11 @@ public class CopybookSeviceImpl implements CopybookSevice {
     }
 
     @Override
+    public Integer myCopybookCount(String userId) {
+        return copybookMapper.myCopybookCount(userId);
+    }
+
+    @Override
     public void addCopybook(Copybook copybook) {
         copybookMapper.insert(copybook);
         Integer copybookId = copybook.getId();

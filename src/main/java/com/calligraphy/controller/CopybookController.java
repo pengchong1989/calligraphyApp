@@ -7,6 +7,7 @@ import com.calligraphy.service.CopybookSevice;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping(value = "/copybook")
 public class CopybookController {
     @Resource
@@ -38,7 +39,11 @@ public class CopybookController {
                 map.put("backtype",d.getBacktype());
                 maps.add(map);
             }
-            responseData =  new ResponseData(true,"",maps);
+            Map<String,Object> map = new HashMap<>();
+            map.put("total",copybookSevice.myCopybookCount(userId));
+            map.put("curNum",pageNum);
+            map.put("list",maps);
+            responseData =  new ResponseData(true,"",map);
         } catch (Exception e) {
             e.printStackTrace();
             responseData = new ResponseData(false,"",null);

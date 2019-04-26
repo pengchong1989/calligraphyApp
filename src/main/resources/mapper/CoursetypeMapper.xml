@@ -95,7 +95,19 @@
   </update>
 
   <select id="courseTypeList" resultType="com.calligraphy.dto.Coursetype">
-    SELECT id,name,url,sort FROM `courseType` where parent_id = #{fristTypeId}
-     ORDER BY sort desc LIMIT #{start},#{end};
+    SELECT id,name,url,sort FROM `courseType` where del_flag=0
+    <if test="fristTypeId != null and fristTypeId != ''">
+      and parent_id = #{fristTypeId}
+    </if>
+    <if test="fristTypeId == null or fristTypeId == '' ">
+      and parent_id = '0'
+    </if>
+     ORDER BY sort ASC LIMIT #{start},#{end};
+  </select>
+
+  <select id="courseTypeListcount" resultType="java.lang.Integer">
+    SELECT count(1) FROM
+    (SELECT id,name,url,sort FROM `courseType` where parent_id = #{fristTypeId} and del_flag=0
+    ) tmp
   </select>
 </mapper>

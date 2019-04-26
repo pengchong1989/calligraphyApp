@@ -148,7 +148,7 @@
   </update>
 
   <select id="diclist" resultType="com.calligraphy.dto.Calligraphydic">
-    SELECT dicUrl,source FROM calligraphydic where 1=1
+    SELECT dicUrl,source FROM calligraphydic where del_flag=0
     <if test="dictype != null">
       and calligraphyDic = #{dictype}
     </if>
@@ -157,4 +157,33 @@
     </if>
     ORDER  by sort DESC limit #{start},#{end}
   </select>
+  <select id="diclistcount" resultType="java.lang.Integer">
+    SELECT count(1) FROM
+    (SELECT dicUrl,source FROM calligraphydic where del_flag=0
+    <if test="dictype != null">
+      and calligraphyDic = #{dictype}
+    </if>
+    <if test="keyword != null and keyword != ''">
+      and (wordName = #{keyword} or pinyin = #{keyword})
+    </if>
+    ) tmp
+  </select>
+
+  <select id="dicvideolist" resultType="com.calligraphy.dto.Dicvideo">
+    SELECT u.videourl as videourl,d.dicname,d.id FROM dicvideo d INNER JOIN dicvideourl u on d.videourl = u.videoId where del_flag=0
+    <if test="keyword != null and keyword != ''">
+      and d.dicname = #{keyword}
+    </if>
+    ORDER  by update_date DESC limit #{start},#{end}
+  </select>
+
+  <select id="dicvideolistcount" resultType="java.lang.Integer">
+    SELECT count(1) FROM
+    (SELECT u.videourl as videourl,d.dicname,d.id FROM dicvideo d INNER JOIN dicvideourl u on d.videourl = u.videoId where del_flag=0
+    <if test="keyword != null and keyword != ''">
+      and d.dicname = #{keyword}
+    </if>
+    ) tmp
+  </select>
+
 </mapper>

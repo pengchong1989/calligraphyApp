@@ -24,12 +24,22 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public Integer courseTypeListcount(String fristTypeId) {
+        return coursetypeMapper.courseTypeListcount(fristTypeId);
+    }
+
+    @Override
     public List<Course> courseList(String secondTypeId, String keyword,Integer pageSize,Integer pageNum) {
         return courseMapper.courseList(secondTypeId,keyword,(pageNum-1)*pageSize,pageNum*pageSize);
     }
 
     @Override
-    public List<Course> findCourse(String courseId) {
+    public Integer courseListcount(String secondTypeId, String keyword) {
+        return courseMapper.courseListcount(secondTypeId,keyword);
+    }
+
+    @Override
+    public Course findCourse(String courseId) {
         return courseMapper.findCourse(courseId);
     }
 }

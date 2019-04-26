@@ -22,5 +22,7 @@ public interface CourseMapper {
     public List<Course> courseList(@Param("secondTypeId")String secondTypeId,@Param("keyword") String keyword
             ,@Param("start")Integer start,@Param("end")Integer end);
 
-    public List<Course> findCourse(@Param("courseId")String courseId);
+    public Course findCourse(@Param("courseId")String courseId);
+
+    Integer courseListcount(@Param("secondTypeId")String secondTypeId,@Param("keyword") String keyword);
 }

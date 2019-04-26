@@ -21,4 +21,6 @@ public interface CoursetypeMapper {
 
     public List<Coursetype> courseTypeList(@Param("fristTypeId") String fristTypeId
             ,@Param("start")Integer start,@Param("end")Integer end);
+
+    Integer courseTypeListcount(@Param("fristTypeId")String fristTypeId);
 }

@@ -140,27 +140,58 @@
   </update>
 
   <select id="list" resultType="com.calligraphy.dto.Rubbings">
-    SELECT  id,name,typeTime,rubbingsUrl FROM  rubbings where 1=1
+    SELECT  id,name,typeTime,rubbingsUrl FROM  rubbings where del_flag=0
     <if test="keyword != null and keyword != ''">
       and name LIKE CONCAT('%',#{keyword},'%' )
     </if>
     <if test="rubbingsType != null">
       and typeTime = ${rubbingsType}
     </if>
-    ORDER by createTime DESC LIMIT #{start},#{end}
+    ORDER by create_date DESC LIMIT #{start},#{end}
   </select>
 
   <select id="mycollect" resultType="com.calligraphy.dto.Rubbings">
     SELECT r.id,r.name,r.typeTime,r.rubbingsUrl FROM collectrubbings c INNER JOIN `rubbings` r on c.rubbingsId = r.id and userId = #{userId}
-    where 1=1
+    where del_flag=0
     <if test="keyword != null and keyword != ''">
       and r.name LIKE CONCAT('%',#{keyword},'%' )
     </if>
-    ORDER by r.createTime DESC LIMIT #{start},#{end}
+    ORDER by r.create_date DESC LIMIT #{start},#{end}
+  </select>
+
+  <select id="listcount" resultType="java.lang.Integer">
+    SELECT count(1) FROM
+    ( SELECT  id,name,typeTime,rubbingsUrl FROM  rubbings where del_flag=0
+    <if test="keyword != null and keyword != ''">
+      and name LIKE CONCAT('%',#{keyword},'%' )
+    </if>
+    <if test="rubbingsType != null">
+      and typeTime = ${rubbingsType}
+    </if>
+    ) tmp
+  </select>
+
+  <select id="mycollectcount" resultType="java.lang.Integer">
+    SELECT count(1) FROM
+    (SELECT r.id,r.name,r.typeTime,r.rubbingsUrl FROM collectrubbings c INNER JOIN `rubbings` r on c.rubbingsId = r.id and userId = #{userId}
+    where del_flag=0
+    <if test="keyword != null and keyword != ''">
+      and r.name LIKE CONCAT('%',#{keyword},'%' )
+    </if>
+    ) tmp
   </select>
 
   <insert id="addcollect">
-    insert into collectrubbings (userId, rubbingsId)
-    values (#{userId,jdbcType=VARCHAR}, #{rubbingsId,jdbcType=VARCHAR})
+    insert into collectrubbings (userId, rubbingsId,colletcdate)
+    values (#{userId,jdbcType=VARCHAR}, #{rubbingsId,jdbcType=VARCHAR},now())
   </insert>
+
+  <select id="hotlist" resultType="com.calligraphy.dto.Rubbings">
+
+   SELECT  id,name,typeTime,rubbingsUrl FROM  rubbings where hot=1 and del_flag=0 order by name limit 0,20
+  </select>
+
+  <delete id="canclecollect">
+    DELETE FROM  collectrubbings where userId = #{userId} and rubbingsId = #{rubbingsId}
+  </delete>
 </mapper>

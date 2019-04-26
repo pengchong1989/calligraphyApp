@@ -10,6 +10,41 @@
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="create_by" jdbcType="VARCHAR" property="createBy" />
   </resultMap>
+  <sql id="courseColumns">
+    a.id AS "id",
+    a.coursename AS "coursename",
+    a.fristtypeid AS "fristtypeid",
+    a.secondtypeid AS "coursetype.id",
+    a.sort AS "sort",
+    a.create_date AS "createDate",
+    a.create_by AS "createBy.id",
+    a.cover AS "cover",
+    a.update_date AS "updateDate",
+    a.update_by AS "updateBy.id",
+    a.remarks AS "remarks",
+    a.del_flag AS "delFlag",
+    a.url1 AS "url1",
+    a.video1 AS "video1",
+    a.url2 AS "url2",
+    a.video2 AS "video2",
+    a.url3 AS "url3",
+    a.video3 AS "video3",
+    a.url4 AS "url4",
+    a.video4 AS "video4",
+    a.url5 AS "url5",
+    a.video5 AS "video5",
+    a.url6 AS "url6",
+    a.video6 AS "video6",
+    a.url7 AS "url7",
+    a.video7 AS "video7",
+    a.url8 AS "url8",
+    a.video8 AS "video8",
+    a.url9 AS "url9",
+    a.video9 AS "video9",
+    a.url10 AS "url10",
+    a.video10 AS "video10"
+  </sql>
+
   <sql id="Base_Column_List">
     id, courseName, fristTypeId, secondTypeId, sort, create_date, create_by
   </sql>
@@ -106,11 +141,17 @@
   </update>
 
   <select id="courseList" resultType="com.calligraphy.dto.Course">
-    SELECT id,courseName ,cover,sort FROM `course` where secondTypeId = #{secondTypeId}
-    ORDER BY sort DESC LIMIT #{start},#{end};
+    SELECT id,courseName ,cover,sort FROM `course` where secondTypeId = #{secondTypeId} and del_flag=0
+    ORDER BY sort ASC LIMIT #{start},#{end};
+  </select>
+
+  <select id="courseListcount" resultType="java.lang.Integer">
+    SELECT count(1) FROM
+    (SELECT id,courseName ,cover,sort FROM `course` where secondTypeId = #{secondTypeId} and del_flag=0
+    ) tmp
   </select>
 
   <select id="findCourse" resultType="com.calligraphy.dto.Course">
-    SELECT c.id,c.courseName,cs.courseurl as cover FROM courseurls cs INNER JOIN `course` c on c.id = cs.courseId and c.id = #{courseId} ORDER BY cs.sort DESC;
+    SELECT * FROM `course` where id = #{courseId};
   </select>
 </mapper>

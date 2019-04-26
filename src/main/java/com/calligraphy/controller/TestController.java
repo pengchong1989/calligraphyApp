@@ -18,7 +18,7 @@ public class TestController {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
     @Autowired
-    private StringRedisTemplate stringredisTemplate;
+    private StringRedisTemplate stringRedisTemplate;
 
     @Resource
     TestDtoService testDtoService;
@@ -31,8 +31,8 @@ public class TestController {
 
     @RequestMapping("/getmy")
     public String gettest(){
-        stringredisTemplate.opsForValue().set("test","100",200);
-        String text = stringredisTemplate.opsForValue().get("test");
+        System.out.println(stringRedisTemplate.opsForValue().get("dictMap"));
+        String text = stringRedisTemplate.opsForValue().get("test");
         return text == null ?"redis timeout":text;
     }
 

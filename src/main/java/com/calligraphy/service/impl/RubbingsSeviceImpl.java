@@ -27,4 +27,25 @@ public class RubbingsSeviceImpl implements RubbingsSevice {
     public void addcollect(String rubbingsId, String userId) {
         rubbingsMapper.addcollect(rubbingsId,userId);
     }
+
+    @Override
+    public Integer listcount(String keyword, Integer rubbingsType) {
+        return rubbingsMapper.listcount(keyword,rubbingsType);
+    }
+
+    @Override
+    public Integer mycollectcount(String keyword, String userId) {
+        return rubbingsMapper.mycollectcount(keyword,userId);
+    }
+
+    @Override
+    public List<Rubbings> hotlist() {
+        return rubbingsMapper.hotlist();
+    }
+
+    @Override
+    public void canclecollect(String rubbingsId, String userId) {
+        rubbingsMapper.canclecollect(rubbingsId,userId);
+    }
+
 }

@@ -140,4 +140,10 @@
       (#{copybookurls.copybookId}, #{copybookurls.url}, #{copybookurls.sort})
     </foreach >
   </insert>
+
+  <select id="myCopybookCount" resultType="java.lang.Integer">
+    SELECT count(1) FROM
+    (SELECT id FROM `copybook` WHERE userId = #{userId}
+    ) tmp
+  </select>
 </mapper>

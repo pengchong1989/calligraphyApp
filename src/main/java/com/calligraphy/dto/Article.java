@@ -45,6 +45,9 @@ public class Article implements Serializable {
      */
     private String content;
 
+    private Integer praisenum;		// 点赞量
+    private Integer rednum;		// 阅读量
+    private Integer reportednum;		// 被举报次数
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -109,6 +112,30 @@ public class Article implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Integer getPraisenum() {
+        return praisenum;
+    }
+
+    public void setPraisenum(Integer praisenum) {
+        this.praisenum = praisenum;
+    }
+
+    public Integer getRednum() {
+        return rednum;
+    }
+
+    public void setRednum(Integer rednum) {
+        this.rednum = rednum;
+    }
+
+    public Integer getReportednum() {
+        return reportednum;
+    }
+
+    public void setReportednum(Integer reportednum) {
+        this.reportednum = reportednum;
     }
 
     @Override
