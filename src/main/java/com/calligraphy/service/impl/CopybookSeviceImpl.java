@@ -57,4 +57,9 @@ public class CopybookSeviceImpl implements CopybookSevice {
         }
         copybookMapper.insertBatch(cs);
     }
+
+    @Override
+    public Integer deletemy(Integer id, String userId) {
+        return copybookMapper.deletemy(id,userId);
+    }
 }

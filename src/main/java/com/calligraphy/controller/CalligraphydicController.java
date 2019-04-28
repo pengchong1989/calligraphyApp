@@ -27,6 +27,7 @@ public class CalligraphydicController {
     @ResponseBody
     @RequestMapping("/dicList")
     public ResponseData dicList(String keyword,Integer pageSize,Integer pageNum,Integer type){
+        System.out.println("git test");
         ResponseData responseData;
         List<Calligraphydic> data;
         try {
@@ -34,6 +35,7 @@ public class CalligraphydicController {
             List<Map<String,Object>> maps = new ArrayList<>();
             for(Calligraphydic d: data){
                 Map<String,Object> map = new HashMap<>();
+                map.put("calligraphydic",d.getCalligraphydic());
                 map.put("source",d.getSource());
                 map.put("dicUrl",ContansUtil.osshead+d.getDicurl());
                 maps.add(map);

@@ -26,4 +26,5 @@ public interface CopybookMapper {
     void insertBatch(@Param("list")List<Copybookurls> list);
 
     Integer myCopybookCount(@Param("userId") String userId);
+    Integer deletemy(@Param("id")Integer id, @Param("userId")String userId);
 }

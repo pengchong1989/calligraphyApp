@@ -10,4 +10,5 @@ public interface CalligraphydicService {
     public Integer diclistcount(String keyword,Integer type);
     public List<Dicvideo> dicvideolisy(String keyword,Integer start,Integer end);
     public Integer dicvideolistcount(String keyword);
+
 }

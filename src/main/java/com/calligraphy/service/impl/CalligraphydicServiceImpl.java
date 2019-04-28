@@ -32,4 +32,5 @@ public class CalligraphydicServiceImpl implements CalligraphydicService {
     public Integer dicvideolistcount(String keyword) {
         return calligraphydicMapper.dicvideolistcount(keyword);
     }
+
 }

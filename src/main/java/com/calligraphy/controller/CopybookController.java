@@ -64,4 +64,18 @@ public class CopybookController {
         }
         return responseData;
     }
+
+    @ResponseBody
+    @RequestMapping("/delete")
+    public ResponseData deleteCopybook(Integer id,String userId){
+        ResponseData responseData;
+        try {
+            copybookSevice.deletemy(id,userId);
+            responseData =  new ResponseData(true,"",null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            responseData = new ResponseData(false,"",null);
+        }
+        return responseData;
+    }
 }
